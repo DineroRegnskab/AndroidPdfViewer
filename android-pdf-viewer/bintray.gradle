@@ -1,3 +1,4 @@
+/*
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
@@ -87,3 +88,5 @@ bintray {
         }
     }
 }
+
+ */

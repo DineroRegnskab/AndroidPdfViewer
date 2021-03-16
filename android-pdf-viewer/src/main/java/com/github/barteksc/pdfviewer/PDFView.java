@@ -241,6 +241,12 @@ public class PDFView extends RelativeLayout {
     /** Holds last used Configurator that should be loaded when view has size */
     private Configurator waitingDocumentConfigurator;
 
+    /**
+     * If true,the PdfView would release automatically when it is detached from window,
+     * otherwise false
+     */
+    private boolean autoReleasingWhenDetachedFromWindow = true;
+
     /** Construct the initial view */
     public PDFView(Context context, AttributeSet set) {
         super(context, set);
@@ -468,6 +474,13 @@ public class PDFView extends RelativeLayout {
 
     @Override
     protected void onDetachedFromWindow() {
+        if (autoReleasingWhenDetachedFromWindow){
+            release();
+        }
+        super.onDetachedFromWindow();
+    }
+
+    public void release() {
         recycle();
         if (renderingHandlerThread != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
@@ -477,8 +490,8 @@ public class PDFView extends RelativeLayout {
             }
             renderingHandlerThread = null;
         }
-        super.onDetachedFromWindow();
     }
+
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -1239,6 +1252,10 @@ public class PDFView extends RelativeLayout {
         this.autoSpacing = autoSpacing;
     }
 
+    private void setAutoReleasingWhenDetachedFromWindow(boolean autoReleasing){
+        this.autoReleasingWhenDetachedFromWindow = autoReleasing;
+    }
+
     private void setPageFitPolicy(FitPolicy pageFitPolicy) {
         this.pageFitPolicy = pageFitPolicy;
     }
@@ -1371,6 +1388,8 @@ public class PDFView extends RelativeLayout {
 
         private boolean autoSpacing = false;
 
+        private boolean autoReleasingWhenDetachedFromWindow = true;
+
         private FitPolicy pageFitPolicy = FitPolicy.WIDTH;
 
         private boolean fitEachPage = false;
@@ -1495,6 +1514,11 @@ public class PDFView extends RelativeLayout {
             return this;
         }
 
+        public Configurator autoReleasingWhenDetachedFromWindow(boolean autoReleasing) {
+            this.autoReleasingWhenDetachedFromWindow = autoReleasing;
+            return this;
+        }
+
         public Configurator pageFitPolicy(FitPolicy pageFitPolicy) {
             this.pageFitPolicy = pageFitPolicy;
             return this;
@@ -1552,6 +1576,7 @@ public class PDFView extends RelativeLayout {
             PDFView.this.enableAntialiasing(antialiasing);
             PDFView.this.setSpacing(spacing);
             PDFView.this.setAutoSpacing(autoSpacing);
+            PDFView.this.setAutoReleasingWhenDetachedFromWindow(autoReleasingWhenDetachedFromWindow);
             PDFView.this.setPageFitPolicy(pageFitPolicy);
             PDFView.this.setFitEachPage(fitEachPage);
             PDFView.this.setPageSnap(pageSnap);
