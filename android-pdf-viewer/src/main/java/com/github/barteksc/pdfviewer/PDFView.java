@@ -770,6 +770,8 @@ public class PDFView extends RelativeLayout {
 
         this.pdfFile = pdfFile;
 
+        if (renderingHandlerThread==null) return; // not attached to a window anymore, so bail out
+
         if (!renderingHandlerThread.isAlive()) {
             renderingHandlerThread.start();
         }
