@@ -83,6 +83,8 @@ class RenderingHandler extends Handler {
                     pdfView.onPageError(ex);
                 }
             });
+        } catch (final Exception ex) {
+            Log.e(TAG, "Cannot handle " + task, ex);
         }
     }
 
