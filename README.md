@@ -3,9 +3,9 @@
 # Publicering af ny udgave / noter om opdatering
 
 1) Commit rettelser til master
-2)
-git tag -a "3.1.0-beta.7" -m "Fix for nullpointerexception"
-git push origin --tags
+2) Udfør
+    git tag -a "3.1.0-beta.7" -m "Fix for nullpointerexception"
+    git push origin --tags
 3) ret til implementation 'com.github.DineroRegnskab:AndroidPdfViewer:3.1.0-beta.7'
 
 # Looking for new maintainer!
